@@ -1,5 +1,5 @@
 
-(define (script-fu-stickerize img resz brusz) 
+(define (script-fu-stickerize img brusz) 
 (
 	let*
 	(
@@ -27,14 +27,14 @@
 	(set! height (car (gimp-drawable-height toplayer)))
 	(set! ratio (/ height width))
 	
-	(if (< width height)
+	(if (> ratio 1)
 		(begin
-			(set! width resz)
-			(set! height (* ratio resz)) 	
+			(set! height 512)
+			(set! width (* (/ 1 ratio) 512))
 		)
 		(begin
-			(set! width (* (/ 1 ratio) resz))
-			(set! height resz)
+			(set! height (* ratio 512))
+			(set! width 512)
 		)
 	)
 
@@ -82,7 +82,6 @@
 	"5.7.2015"
 	""
 	SF-IMAGE "Image" 0
-	SF-VALUE "Resize to (px)" "350"
 	SF-VALUE "Edge size (px)" "5"
 
 )(script-fu-menu-register "script-fu-stickerize" "<Image>/File")
